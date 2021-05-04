@@ -159,6 +159,7 @@ while (dice !== 6) {
     dice = Math.trunc(Math.random() * 6) + 1;
 }*/
 
+/*
 const bills = [22,295,176,440,37,105,10,1100,86,52];
 const tips = [];
 const totals = [];
@@ -175,4 +176,17 @@ for (let i = 0; i < bills.length; i++) {
     totals.push(bills[i]+tips[i]);
 }
 console.log(tips, totals);
-console.log(calcAverage(tips), calcAverage(totals));
+console.log(calcAverage(tips), calcAverage(totals));*/
+
+/*
+const temps = [17, 21, 2, -5, 0];
+
+const printForecast = function (arr) {
+    let forecast = '';
+    for (let i = 0; i < arr.length; i++){
+        forecast += `${arr[i]}C in ${i+1} days ... `;
+    }
+    console.log('... ' + forecast);
+}
+
+printForecast(temps);*/
