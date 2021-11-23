@@ -15,6 +15,11 @@ console.log(jonas);
 // jonas.calcAge();
 console.log(jonas instanceof Person)
 
+Person.hey = function () {
+  console.log('hey!');
+};
+
+Person.hey();
 //Prototypes
 Person.prototype.calcAge = function () {
   console.log(2037 - this.birthYear);
@@ -68,6 +73,7 @@ class PersonCl {
     this.birthYear = birthYear;
   }
 
+  //instance method
   calcAge() {
     console.log(2037 - this.birthYear);
   }
@@ -88,6 +94,11 @@ class PersonCl {
   get fullName() {
     return this._fullName;
   }
+
+  //Static method
+  static hey() {
+    console.log('hey!');
+  }
 }
 
 const jessica = new PersonCl('Jessica Kek', 1996);
@@ -99,6 +110,8 @@ console.log(jessica.fullName);
 // }
 jessica.greet();
 
+PersonCl.hey();
+PersonCl.hey();
 //getters setters
 const account = {
   owner: 'jonas',
@@ -115,3 +128,52 @@ const account = {
 console.log(account.latest);
 account.latest = 45;
 console.log(account)
+
+//Object.Create
+const PersonProto = {
+  calcAge() {
+    console.log(2037 - this.birthYear);
+  },
+  init(firstName, birthYear) {
+    this.firstName = firstName;
+    this.birthYear = birthYear;
+  },
+};
+
+const steven = Object.create(PersonProto);
+console.log(steven);
+steven.name = 'Steven';
+steven.birthYear = 2002;
+steven.calcAge();
+
+const sarah = Object.create(PersonProto);
+sarah.init('Sarah', 1999);
+sarah.calcAge();
+
+//Challenge 2
+
+class Car2 {
+  constructor(name, speed) {
+    this.name = name;
+    this.speed = speed;
+  }
+  accelerate(){
+  this.speed += 10;
+  console.log(`${this.name} speed: ${this.speed}`);
+}
+  brake() {
+    this.speed -= 5;
+    console.log(`${this.name} speed: ${this.speed}`);
+  }
+  get speedUS() {
+  return this.speed/1.6;
+  }
+
+  set speedUS(speed) {
+    this.speed = speed*1.6;
+  }
+}
+
+const ford = new Car2('Ford', 120);
+ford.speedUS = 120;
+ford.accelerate();
