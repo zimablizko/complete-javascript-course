@@ -1,5 +1,6 @@
 'use strict';
 
+//Construction functions
 const Person = function (firstName, birthYear) {
   this.firstName = firstName;
   this.birthYear = birthYear;
@@ -34,6 +35,22 @@ console.log(jonas.__proto__);
 console.log(jonas.__proto__.__proto__);
 console.dir(Person.prototype.constructor);
 
+const Student = function (firstName, birthYear, course) {
+  Person.call(this, firstName, birthYear);
+  this.course = course;
+};
+
+Student.prototype = Object.create(Person.prototype);
+
+Student.prototype.introduce = function () {
+  console.log(`My name is ${this.firstName} and I study ${this.course}`);
+}
+const mike = new Student('Mike', 2020, 'CS');
+mike.introduce();
+console.log(mike)
+mike.calcAge();
+Student.prototype.constructor = Student;
+
 const arr = [1, 2, 3, 1, 2, 3, 12, 6];
 console.log(arr.__proto__);
 
@@ -43,30 +60,8 @@ Array.prototype.unique = function () {
 
 console.log(arr.unique())
 
-//Challenge 1
-const Car = function (name, speed) {
-  this.name = name;
-  this.speed = speed;
-};
-Car.prototype.accelerate = function () {
-  this.speed += 10;
-  console.log(`${this.name} speed: ${this.speed}`);
-};
-Car.prototype.brake = function () {
-  this.speed -= 5;
-  console.log(`${this.name} speed: ${this.speed}`);
-};
 
-const bmw = new Car('BMW', 120)
-const merc = new Car('Mercedes', 95)
-
-bmw.accelerate();
-bmw.accelerate();
-bmw.accelerate();
-bmw.accelerate();
-
-merc.brake();
-
+//ES6 classes
 class PersonCl {
   constructor(fullName, birthYear) {
     this._fullName = fullName;
@@ -87,8 +82,11 @@ class PersonCl {
   }
 
   set fullName(name) {
-    if (name.includes(' ')) this._fullName = name;
-    else alert(`${name} is not full name`);
+    if (name.includes(' ')) {
+      this._fullName = name;
+    } else {
+      alert(`${name} is not full name`);
+    }
   }
 
   get fullName() {
@@ -112,6 +110,26 @@ jessica.greet();
 
 PersonCl.hey();
 PersonCl.hey();
+
+class StudentCl extends PersonCl {
+  constructor(fullName, birthYear, course) {
+    super(fullName, birthYear);
+    this.course = course;
+  }
+
+  introduce() {
+    console.log(`My name is ${this.fullName} and I study ${this.course}`);
+  }
+
+  calcAge() {
+    console.log(`Im ${2037 - this.birthYear}, but Im student`);
+  }
+}
+
+const martha = new StudentCl('Martha', 2012, 'CS');
+martha.introduce();
+martha.calcAge();
+
 //getters setters
 const account = {
   owner: 'jonas',
@@ -150,30 +168,73 @@ const sarah = Object.create(PersonProto);
 sarah.init('Sarah', 1999);
 sarah.calcAge();
 
-//Challenge 2
-
-class Car2 {
-  constructor(name, speed) {
-    this.name = name;
-    this.speed = speed;
-  }
-  accelerate(){
-  this.speed += 10;
-  console.log(`${this.name} speed: ${this.speed}`);
-}
-  brake() {
-    this.speed -= 5;
-    console.log(`${this.name} speed: ${this.speed}`);
-  }
-  get speedUS() {
-  return this.speed/1.6;
-  }
-
-  set speedUS(speed) {
-    this.speed = speed*1.6;
-  }
+const StudentProto = Object.create(PersonProto);
+StudentProto.init = function (firstName, birthYear, course) {
+  PersonProto.init.call(this, firstName, birthYear);
+  this.course = course;
 }
 
-const ford = new Car2('Ford', 120);
-ford.speedUS = 120;
-ford.accelerate();
+StudentProto.introduce = function () {
+  console.log(`My name is ${this.firstName} and I study ${this.course}`);
+}
+
+const jay = Object.create(StudentProto);
+jay.init('Jay', 2010, 'CS');
+console.log(jay)
+jay.introduce();
+
+//Another class
+class Account {
+  //public fields
+  locale = navigator.language;
+
+  //private fields
+  #movements = [];
+  #pin;
+
+  constructor(owner, currency, pin) {
+    this.owner = owner;
+    this.currency = currency;
+    //protected property
+    this.#pin = pin;
+    // this._movements = [];
+    // this.locale = navigator.language;
+
+    console.log(`Thanks for opening an account, ${owner}`);
+  }
+
+//Public methods
+  getMovements() {
+    return this.#movements;
+  }
+
+  deposit(val) {
+    this.#movements.push(val);
+  }
+
+  withdraw(val) {
+    this.deposit(-val);
+  }
+
+
+
+  requestLoan(val) {
+    if (this._approveLoan(val)) {
+      this.deposit(val);
+      console.log(`Loan approved`);
+    }
+  }
+
+  //private methods
+  _approveLoan(val) {
+    return true;
+  }
+}
+
+const acc1 = new Account('Jonas', 'EUR', 1111);
+
+acc1.deposit(250);
+acc1.withdraw(100);
+acc1.requestLoan(1000);
+console.log(acc1);
+console.log(acc1.getMovements());
