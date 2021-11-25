@@ -210,10 +210,12 @@ class Account {
 
   deposit(val) {
     this.#movements.push(val);
+    return this;
   }
 
   withdraw(val) {
     this.deposit(-val);
+    return this;
   }
 
 
@@ -223,6 +225,7 @@ class Account {
       this.deposit(val);
       console.log(`Loan approved`);
     }
+    return this;
   }
 
   //private methods
@@ -238,3 +241,6 @@ acc1.withdraw(100);
 acc1.requestLoan(1000);
 console.log(acc1);
 console.log(acc1.getMovements());
+
+//chaining
+acc1.deposit(300).withdraw(100).requestLoan(2000);

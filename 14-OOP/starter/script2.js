@@ -31,20 +31,24 @@ class Car2 {
     this.name = name;
     this.speed = speed;
   }
-  accelerate(){
+
+  accelerate() {
     this.speed += 10;
     console.log(`${this.name} speed: ${this.speed}`);
   }
+
   brake() {
     this.speed -= 5;
     console.log(`${this.name} speed: ${this.speed}`);
+    return this;
   }
+
   get speedUS() {
-    return this.speed/1.6;
+    return this.speed / 1.6;
   }
 
   set speedUS(speed) {
-    this.speed = speed*1.6;
+    this.speed = speed * 1.6;
   }
 }
 
@@ -72,6 +76,31 @@ tesla.chargeBattery(90);
 console.log(tesla);
 tesla.brake();
 tesla.accelerate();
+
+//challenge 4
+class EVCl extends Car2 {
+  #charge;
+
+  constructor(name, speed, charge) {
+    super(name, speed);
+    this.#charge = charge;
+  }
+
+  accelerate() {
+    this.speed += 10;
+    this.#charge--;
+    console.log(`${this.name} speed: ${this.speed} with charge ${this.#charge}%`);
+    return this;
+  }
+
+  chargeBattery(chargeTo) {
+    this.#charge = chargeTo;
+    return this;
+  }
+}
+
+const rivian = new EVCl('Rivian', 120, 23);
+rivian.accelerate().brake().chargeBattery(50).accelerate().accelerate();
 
 
 
