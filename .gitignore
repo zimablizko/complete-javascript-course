@@ -1,1 +1,4 @@
 **/.idea/*
+/17-Modern-JS-Modules-Tooling/package-lock.json
+/17-Modern-JS-Modules-Tooling/.parcel-cache/*
+/17-Modern-JS-Modules-Tooling/dist/*
