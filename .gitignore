@@ -2,3 +2,6 @@
 /17-Modern-JS-Modules-Tooling/package-lock.json
 /17-Modern-JS-Modules-Tooling/.parcel-cache/*
 /17-Modern-JS-Modules-Tooling/dist/*
+/18-forkify/node_modules/*
+/18-forkify/.parcel-cache/*
+/18-forkify/dist/*
